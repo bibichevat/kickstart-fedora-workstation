@@ -17,8 +17,8 @@ bootloader --location=mbr --driveorder=sda
 
 # Create Physical Partition
 part /boot --size=512 --asprimary --ondrive=sda --fstype=xfs
-part swap --size=2048 --ondrive=sda $fdepass
-part / --size=8192 --grow --asprimary --ondrive=sda --fstype=xfs $fdepass
+part swap --size=2048 --ondrive=sda
+part / --size=8192 --grow --asprimary --ondrive=sda --fstype=xfs
 
 # Remove all existing partitions
 clearpart --all --drives=sda
