@@ -63,34 +63,9 @@ firefox
 git
 vim
 ansible
+docker
 
 %end
-
-# Post-installation Script
-%post
-# Install Google Chrome
-cat << EOF > /etc/yum.repos.d/google-chrome.repo
-[google-chrome]
-name=google-chrome
-baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
-enabled=1
-gpgcheck=1
-gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
-EOF
-rpm --import https://dl-ssl.google.com/linux/linux_signing_key.pub
-sudo dnf install -y google-chrome-stable
-
-# Install Docker
-cat << EOF > /etc/yum.repos.d/docker-ce.repo
-[docker-ce-stable]
-name=Docker CE Stable - $basearch
-baseurl=https://download.docker.com/linux/fedora/$releasever/$basearch/stable
-enabled=1
-gpgcheck=1
-gpgkey=https://download.docker.com/linux/fedora/gpg
-EOF
-yum -q makecache fast
-sudo dnf install docker-ce
 
 # Reboot After Installation
 reboot --eject
