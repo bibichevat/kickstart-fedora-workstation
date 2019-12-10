@@ -42,7 +42,7 @@ xconfig --startxonboot
 timezone Europe/Saratov
 
 # Create User Account
-user --name=user --plaintext --password=Q1w2e3r4@ --groups=wheel
+user --name=user --plaintext --password=123456@ --groups=wheel
 
 
 # Set Root Password
