@@ -88,7 +88,7 @@ baseurl=https://download.docker.com/linux/fedora/$releasever/$basearch/stable
 enabled=1
 gpgcheck=1
 gpgkey=https://download.docker.com/linux/fedora/gpg
-
+EOF
 yum -q makecache fast
 sudo dnf install docker-ce
 
