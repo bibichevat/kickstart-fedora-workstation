@@ -30,7 +30,7 @@ firewall --enabled --ssh
 network --onboot=yes --bootproto=dhcp --hostname=user
 
 # Configure Keyboard Layouts
-keyboard ru
+keyboard us
 
 # Configure Language During Installation
 lang en_US
@@ -65,6 +65,64 @@ vim
 ansible
 docker
 
+%end
+# Post-installation Script
+%post
+# Install Google Chrome
+cat << EOF > /etc/yum.repos.d/google-chrome.repo
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+EOF
+rpm --import https://dl-ssl.google.com/linux/linux_signing_key.pub
+dnf install -y google-chrome-stable
+
+# Harden sshd options
+echo "" > /etc/ssh/sshd_config
+
+#vimrc configuration
+echo "filetype plugin indent on
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set nohlsearch" > /home/sina/.vimrc
+
+cat <<EOF > /home/sina/.bashrc
+if [ -f /etc/bashrc ]; then
+  . /etc/bashrc
+fi
+source /usr/bin/virtualenvwrapper.sh
+export GOPATH=/home/sina/Development/go
+export PATH=$PATH:/home/sina/Development/go/bin
+alias irssi='firejail irssi'
+EOF
+
+# Disable IPv6
+cat <<EOF >> /etc/sysctl.conf
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+EOF
+
+# Enable services
+systemctl enable usbmuxd
+
+# Disable services
+systemctl disable sssd
+systemctl disable bluetooth.target
+systemctl disable avahi-daemon
+systemctl disable abrtd
+systemctl disable abrt-ccpp
+systemctl disable mlocate-updatedb
+systemctl disable mlocate-updatedb.timer
+systemctl disable gssproxy
+systemctl disable bluetooth
+systemctl disable geoclue
+systemctl disable ModemManager
+sed -i 's/Disabled=false/Disabled=true/g' /etc/xdg/tumbler/tumbler.rc
 %end
 
 # Reboot After Installation
