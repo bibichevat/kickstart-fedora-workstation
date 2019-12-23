@@ -21,7 +21,7 @@ part swap --size=10240 --ondrive=sda
 part / --size=8192 --grow --asprimary --ondrive=sda --fstype=xfs
 
 # Remove all existing partitions
-clearpart --all --drives=sda
+clearpart --all --initlabel --drives=sda
 
 # Configure Firewall
 firewall --enabled --ssh
@@ -30,7 +30,7 @@ firewall --enabled --ssh
 network --onboot=yes --bootproto=dhcp --hostname=user
 
 # Configure Keyboard Layouts
-keyboard us
+keyboard ru
 
 # Configure Language During Installation
 lang en_US
@@ -42,7 +42,7 @@ xconfig --startxonboot
 timezone Europe/Saratov
 
 # Create User Account
-user --name=user --plaintext --password=123456@ --groups=wheel
+user --name=user --plaintext --password=Q1w2e3r4@ --groups=wheel
 
 
 # Set Root Password
@@ -66,3 +66,11 @@ ansible
 docker
 
 %end
+
+# Post-installation Script
+%post
+systemctl enable docker.service
+%end
+
+# Reboot After Installation
+reboot --eject
