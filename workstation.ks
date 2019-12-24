@@ -69,7 +69,13 @@ docker
 
 # Post-installation Script
 %post
-systemctl enable docker.service
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo curl -o /usr/bin/containers.sh https://raw.githubusercontent.com/bibichevat/kickstart-fedora-workstation/master/containers.sh
+sudo chmod +x /usr/bin/containers.sh
+sudo curl -o /etc/systemd/system/containers.service https://raw.githubusercontent.com/bibichevat/kickstart-fedora-workstation/master/containers.service
+sudo chmod 644 /etc/systemd/system/containers.service
+sudo systemctl enable containers.service
 %end
 
 # Reboot After Installation
