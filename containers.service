@@ -4,7 +4,7 @@ Requires=containers.service
 After=containers.service
 
 [Service]
-Type=forked
+Type=simple
 ExecStart=/bin/bash /usr/bin/containers.sh
 
 [Install]
